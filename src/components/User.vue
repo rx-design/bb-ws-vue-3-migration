@@ -19,6 +19,7 @@
       <td>
         <currency-input
           v-model="salary"
+          :options="{ currency: 'EUR' }"
           class="input is-small"
         />
       </td>
@@ -35,44 +36,55 @@
 </template>
 
 <script>
-import Credentials from '@/mixins/credentials';
-import { CurrencyInput } from 'vue-currency-input';
+import { computed, onMounted, ref, watch } from '@vue/composition-api';
+import { makeCredentialsProps, useCredentials } from '@/composables/credentials';
+import CurrencyInput from '@/components/CurrencyInput.vue';
 
 export default {
   name: 'User',
   components: {
     CurrencyInput,
   },
-  mixins: [
-    Credentials,
-  ],
   props: {
+    ...makeCredentialsProps(),
     givenName: String,
     familyName: String,
   },
-  data() {
+  setup(props) {
+    const salary = ref(5000);
+
+    const name = computed(() => {
+      return `${props.givenName} ${props.familyName}`;
+    });
+
+    const {
+      username,
+      password,
+      isValid,
+      resetPassword,
+    } = useCredentials(name.value);
+
+    const login = () => {
+      username.value = 'Bigbank';
+      password.value = 'bigbank';
+    }
+
+    watch(password, () => {
+      console.warn('Password is set: ', password.value);
+    });
+
+    onMounted(() => {
+      login();
+    });
+
     return {
-      salary: 5000,
+      username,
+      password,
+      salary,
+      isValid,
+      name,
+      resetPassword,
     };
-  },
-  computed: {
-    name() {
-      return `${this.givenName} ${this.familyName}`;
-    },
-  },
-  watch: {
-    password() {
-      console.warn('Password is set: ', this.password);
-    },
-  },
-  mounted() {
-    this.login();
-  },
-  methods: {
-    login() {
-      this.username = 'Bigbank';
-      this.password = 'bigbank';
-    },
   },
 };
 </script>
