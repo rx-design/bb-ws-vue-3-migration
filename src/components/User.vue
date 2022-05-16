@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from '@vue/composition-api';
+import { computed, onMounted, ref, watch } from 'vue';
 import { makeCredentialsProps, useCredentials } from '@/composables/credentials';
 import CurrencyInput from '@/components/CurrencyInput.vue';
 

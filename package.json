@@ -7,12 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@vue/composition-api": "^1.6.1",
-    "vue": "^2.6.14",
+    "vue": "^3.2.33",
     "vue-currency-input": "^2.4.0"
   },
   "devDependencies": {
     "@vue/cli-service": "~5.0.0",
-    "vue-template-compiler": "^2.6.14"
+    "@vue/compiler-sfc": "^3.2.33"
   }
 }
